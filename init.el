@@ -31,6 +31,3 @@
 
 (require 'yasnippet)
 (yas-global-mode 1)
-
-(require 'autopair)
-(autopair-global-mode)
