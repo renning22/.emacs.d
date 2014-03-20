@@ -32,6 +32,9 @@
 (require 'yasnippet)
 (yas-global-mode 1)
 
-(require  'window-number)
+(require 'window-number)
 (window-number-mode)
 (window-number-meta-mode)
+
+(require 'smart-tab)
+(global-smart-tab-mode 1)
