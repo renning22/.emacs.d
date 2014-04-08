@@ -5,6 +5,7 @@
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes nil)
  '(inhibit-startup-screen t)
+ '(show-paren-mode t)
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
 (custom-set-faces
