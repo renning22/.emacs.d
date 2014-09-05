@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+
  '(column-number-mode t)
  '(custom-enabled-themes nil)
  '(inhibit-startup-screen t)
@@ -14,6 +15,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+
+
  '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 143 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
 
 
@@ -66,7 +69,14 @@
 ;;; Global key binding
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "<f7>") 'compile)
-(global-set-key (kbd "<f8>") 'google-lint)
+
+(put 'scroll-left 'disabled nil)
+;;; Shut up compile saves
+(setq compilation-ask-about-save nil)
+
+(global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "<f7>") 'compile)
+
 
 ;;; Packages
 
@@ -83,6 +93,7 @@
 
 (require 'smart-tab)
 (global-smart-tab-mode 1)
+
 
 ;;; auto-save
 ;; automatically save buffers associated with files on buffer switch
