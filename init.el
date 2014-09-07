@@ -79,14 +79,6 @@
 ;;; Shut up compile saves
 (setq compilation-ask-about-save nil)
 
-;;; Global key binding
-(global-set-key (kbd "C-o") 'other-window)
-(global-set-key (kbd "<f7>") 'compile)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-x f") 'dired)
-(global-set-key (kbd "M-n") 'forward-paragraph)
-(global-set-key (kbd "M-p") 'backward-paragraph)
-
 ;;; Packages
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/.emacs.d/elpa/yasnippet-0.8.0")
@@ -122,3 +114,14 @@
   (when buffer-file-name (save-buffer)))
 (defadvice windmove-right (before other-window-now activate)
   (when buffer-file-name (save-buffer)))
+
+
+
+;;;;;;;;;; Global key binding
+(global-set-key (kbd "C-o") 'other-window)
+(global-set-key (kbd "<f7>") 'compile)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x f") 'dired)
+(global-set-key (kbd "M-n") 'forward-paragraph)
+(global-set-key (kbd "M-p") 'backward-paragraph)
+;;;;;;;;;;
