@@ -3,7 +3,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
-
  '(column-number-mode t)
  '(custom-enabled-themes nil)
  '(inhibit-startup-screen t)
@@ -11,12 +10,13 @@
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
 
-
 ;; Set font depends on system
 (custom-set-faces
- (when (string-equal system-type "darwin") ;; MacOS
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 180 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
- )
 
 ;;;;;;;;;;;;; Google Internal Use ;;;;;;;;;;;;;
 (when (require 'google nil 'noerror)
@@ -73,12 +73,8 @@
 ;;; Global key binding
 (global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "<f7>") 'compile)
-
-;;; Shut up compile saves
-(setq compilation-ask-about-save nil)
-
-
-
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x C-f") 'dired)
 ;;; Packages
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/.emacs.d/elpa/yasnippet-0.8.0")
@@ -94,6 +90,10 @@
 (require 'smart-tab)
 (global-smart-tab-mode 1)
 
+(require 'ido)
+(ido-mode t)
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
 
 ;;; auto-save
 ;; automatically save buffers associated with files on buffer switch
