@@ -23,7 +23,7 @@
 (when (require 'google nil 'noerror)
   (progn
     (require 'google)
-    (require 'google-java)
+    ;; (require 'google-java)
     ;; (require 'p4-google)                ;; g4-annotate, improves find-file-at-point
     ;; (require 'compilation-colorization) ;; colorizes output of (i)grep
     (require 'googlemenu)               ;; handy Google menu bar
@@ -49,6 +49,12 @@
     (add-hook 'java-mode-hook
 	      '(lambda ()
 		 (add-hook 'write-contents-functions 'google-imports-organize-imports)))
+    ;;
+    ;;
+    ;; Suppress the trailing empty to be shown in RED
+    (setq google-trailing-whitespace-modes '())
+    (message "Suppressed trailing empty space red mode")
+    ;;
     ;;
     )
   )
@@ -82,7 +88,6 @@
 ;;; Packages
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/.emacs.d/elpa/yasnippet-0.8.0")
-(add-to-list 'load-path "~/.emacs.d/smartparens-master")
 
 (require 'yasnippet)
 (yas-global-mode 1)
@@ -101,21 +106,21 @@
 (setq ido-everywhere t)
 
 
-;;; auto-save
-;; automatically save buffers associated with files on buffer switch
-;; and on windows switch
-(defadvice switch-to-buffer (before save-buffer-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice other-window (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice windmove-up (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice windmove-down (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice windmove-left (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
-(defadvice windmove-right (before other-window-now activate)
-  (when buffer-file-name (save-buffer)))
+;; ;;; auto-save
+;; ;; automatically save buffers associated with files on buffer switch
+;; ;; and on windows switch
+;; (defadvice switch-to-buffer (before save-buffer-now activate)
+;;   (when buffer-file-name (save-buffer)))
+;; (defadvice other-window (before other-window-now activate)
+;;   (when buffer-file-name (save-buffer)))
+;; (defadvice windmove-up (before other-window-now activate)
+;;   (when buffer-file-name (save-buffer)))
+;; (defadvice windmove-down (before other-window-now activate)
+;;   (when buffer-file-name (save-buffer)))
+;; (defadvice windmove-left (before other-window-now activate)
+;;   (when buffer-file-name (save-buffer)))
+;; (defadvice windmove-right (before other-window-now activate)
+;;   (when buffer-file-name (save-buffer)))
 
 
 
@@ -164,16 +169,6 @@
   (while (not (looking-at "{")) (backward-char 1))
   )
 
-;;;; Solve C-i=Tab, C-[=Esc problem
-;;
-;; Translate the problematic keys to the function key Hyper:
-(keyboard-translate ?\C-i ?\H-i)
-(keyboard-translate ?\C-m ?\H-m)
-;; Rebind then accordantly:
-(global-set-key [?\H-m] 'delete-backward-char)
-(global-set-key [?\H-i] 'iswitchb-buffer)
-;;;;
-
 (global-set-key (kbd "M-)")           (quote move-forward-paren))
 (global-set-key (kbd "M-(")           (quote move-backward-paren))
 (global-set-key (kbd "M-]")           (quote move-forward-sqrParen))
@@ -189,6 +184,7 @@
 (global-set-key (kbd "<f7>") 'compile)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x f") 'dired)
+(global-set-key (kbd "C-x C-k") 'kill-buffer-and-window)
 (global-set-key (kbd "M-n") 'forward-paragraph)
 (global-set-key (kbd "M-p") 'backward-paragraph)
 ;;;;;;;;;;
