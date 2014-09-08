@@ -22,7 +22,7 @@
 ;;;;;;;;;;;;; Google Internal Use ;;;;;;;;;;;;;
 (when (require 'google nil 'noerror)
   (progn
-    (require 'google)
+    ;; (require 'google)
     ;; (require 'google-java)
     ;; (require 'p4-google)                ;; g4-annotate, improves find-file-at-point
     ;; (require 'compilation-colorization) ;; colorizes output of (i)grep
@@ -34,7 +34,6 @@
     ;;
     (grok-init)
     ;;
-    (setq google-build-system "blaze")
     ;;
     ;;
     ;;make chrome the default browser
@@ -169,12 +168,29 @@
   (while (not (looking-at "{")) (backward-char 1))
   )
 
+(defun move-forward-angleParen (&optional arg)
+  "Move forward angle brackets"
+  (interactive "P")
+  (if (looking-at ">") (forward-char 1))
+  (while (not (looking-at ">")) (forward-char 1))
+  )
+
+(defun move-backward-angleParen (&optional arg)
+  "Move backward angle brackets"
+  (interactive "P")
+  (if (looking-at "<") (forward-char -1))
+  (while (not (looking-at "<")) (backward-char 1))
+  )
+
 (global-set-key (kbd "M-)")           (quote move-forward-paren))
 (global-set-key (kbd "M-(")           (quote move-backward-paren))
 (global-set-key (kbd "M-]")           (quote move-forward-sqrParen))
 (global-set-key (kbd "M-[")           (quote move-backward-sqrParen))
 (global-set-key (kbd "M-}")           (quote move-forward-curlyParen))
 (global-set-key (kbd "M-{")           (quote move-backward-curlyParen))
+(global-set-key (kbd "M->")           (quote move-forward-angleParen))
+(global-set-key (kbd "M-<")           (quote move-backward-angleParen))
+
 ;;
 ;;
 ;;;;;;;;;; Smart Parens
