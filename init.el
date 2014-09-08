@@ -82,6 +82,7 @@
 ;;; Packages
 (add-to-list 'load-path "~/.emacs.d")
 (add-to-list 'load-path "~/.emacs.d/elpa/yasnippet-0.8.0")
+(add-to-list 'load-path "~/.emacs.d/smartparens-master")
 
 (require 'yasnippet)
 (yas-global-mode 1)
@@ -98,6 +99,7 @@
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
+
 
 ;;; auto-save
 ;; automatically save buffers associated with files on buffer switch
@@ -116,6 +118,71 @@
   (when buffer-file-name (save-buffer)))
 
 
+
+;;;;;;;;;; Smart Parens
+;;
+;;
+(defun move-forward-paren (&optional arg)
+  "Move forward parenthesis"
+  (interactive "P")
+  (if (looking-at ")") (forward-char 1))
+  (while (not (looking-at ")")) (forward-char 1))
+  )
+
+(defun move-backward-paren (&optional arg)
+  "Move backward parenthesis"
+  (interactive "P")
+  (if (looking-at "(") (forward-char -1))
+  (while (not (looking-at "(")) (backward-char 1))
+  )
+
+(defun move-forward-sqrParen (&optional arg)
+  "Move forward square brackets"
+  (interactive "P")
+  (if (looking-at "]") (forward-char 1))
+  (while (not (looking-at "]")) (forward-char 1))
+  )
+
+(defun move-backward-sqrParen (&optional arg)
+  "Move backward square brackets"
+  (interactive "P")
+  (if (looking-at "[[]") (forward-char -1))
+  (while (not (looking-at "[[]")) (backward-char 1))
+  )
+
+(defun move-forward-curlyParen (&optional arg)
+  "Move forward curly brackets"
+  (interactive "P")
+  (if (looking-at "}") (forward-char 1))
+  (while (not (looking-at "}")) (forward-char 1))
+  )
+
+(defun move-backward-curlyParen (&optional arg)
+  "Move backward curly brackets"
+  (interactive "P")
+  (if (looking-at "{") (forward-char -1))
+  (while (not (looking-at "{")) (backward-char 1))
+  )
+
+;;;; Solve C-i=Tab, C-[=Esc problem
+;;
+;; Translate the problematic keys to the function key Hyper:
+(keyboard-translate ?\C-i ?\H-i)
+(keyboard-translate ?\C-m ?\H-m)
+;; Rebind then accordantly:
+(global-set-key [?\H-m] 'delete-backward-char)
+(global-set-key [?\H-i] 'iswitchb-buffer)
+;;;;
+
+(global-set-key (kbd "M-)")           (quote move-forward-paren))
+(global-set-key (kbd "M-(")           (quote move-backward-paren))
+(global-set-key (kbd "M-]")           (quote move-forward-sqrParen))
+(global-set-key (kbd "M-[")           (quote move-backward-sqrParen))
+(global-set-key (kbd "M-}")           (quote move-forward-curlyParen))
+(global-set-key (kbd "M-{")           (quote move-backward-curlyParen))
+;;
+;;
+;;;;;;;;;; Smart Parens
 
 ;;;;;;;;;; Global key binding
 (global-set-key (kbd "C-o") 'other-window)
