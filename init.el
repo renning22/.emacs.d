@@ -16,7 +16,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 170 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
+ '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 160 :width normal :foundry "unknown" :family "DejaVu Sans Mono")))))
 
 
 ;;;;;;;;;;;;; Google Internal Use ;;;;;;;;;;;;;
@@ -74,6 +74,11 @@
  kept-old-versions 2
  version-control t)
 
+
+;;; make completion buffers disappear after 3 seconds.
+(add-hook 'completion-setup-hook
+  (lambda () (run-at-time 3 nil
+    (lambda () (delete-windows-on "*Completions*")))))
 
 ;;; make typing overwrite text selection
 (delete-selection-mode 1)
@@ -194,6 +199,25 @@
 ;;
 ;;
 ;;;;;;;;;; Smart Parens
+
+;;;;;;;;;; Smart Copy/Kill Current Line
+;;
+;;
+(defadvice kill-ring-save (before smart-copy-line activate compile)
+  "When called interactively with no active region, copy a single line instead."
+  (interactive (if mark-active (list (region-beginning) (region-end)) (message
+  "Copied line") (list (line-beginning-position) (line-beginning-position
+  2)))))
+
+(defadvice kill-region (before smart-kill-line activate compile)
+  "When called interactively with no active region, kill a single line instead."
+  (interactive
+    (if mark-active (list (region-beginning) (region-end))
+      (list (line-beginning-position)
+        (line-beginning-position 2)))))
+;;
+;;
+;;;;;;;;;;
 
 ;;;;;;;;;; Global key binding
 (global-set-key (kbd "C-o") 'other-window)
