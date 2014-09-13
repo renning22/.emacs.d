@@ -82,7 +82,7 @@
     (lambda () (delete-windows-on "*Completions*")))))
 
 ;;; make typing overwrite text selection
-(delete-selection-mode 1)
+(delete-selection-mode t)
 
 ;;; Disable what? forgot
 (put 'scroll-left 'disabled nil)
@@ -91,12 +91,7 @@
 (setq compilation-ask-about-save nil)
 
 ;;; Packages
-(add-to-list 'load-path "~/.emacs.d")
-(add-to-list 'load-path "~/.emacs.d/elpa/yasnippet-0.8.0")
-
-(require 'yasnippet)
-(yas-global-mode 1)
-(define-key yas-minor-mode-map (kbd "<backtab>") 'yas-expand)
+(add-to-list 'load-path "~/.emacs.d/lisp")
 
 (require 'window-number)
 (window-number-mode)
