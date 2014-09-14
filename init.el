@@ -206,24 +206,52 @@
 ;;;;;;;;;; Smart Copy/Kill Current Line
 ;;
 ;;
+
+(defun my-smart-copy-kill-selector ()
+  "Smartly select current object to be copied or killed based on context.
+return a 2-tuple-list."
+  (if mark-active
+      (progn (message "Copied region") (list (region-beginning) (region-end)))
+    ;; else 1
+    (if (bounds-of-thing-at-point 'symbol)
+	(progn (message "Copied symbol: %s" (thing-at-point 'symbol)) (list (car (bounds-of-thing-at-point 'symbol)) (cdr (bounds-of-thing-at-point 'symbol))))
+      ;; else 2
+      (progn (message "Copied line: %s" (thing-at-point 'line)) (list (line-beginning-position) (line-end-position)))
+      );; end of if 2
+    );; end of if 1
+  )
+
+
+
+
 (defadvice kill-ring-save (before smart-copy-line activate compile)
-  "When called interactively with no active region, copy a single line instead."
-  (interactive (if mark-active (list (region-beginning) (region-end)) (message
-  "Copied line") (list (line-beginning-position) (line-beginning-position
-  2)))))
+  "When called interactively with no active region, copy a single line or a a word instead."
+  (interactive (my-smart-copy-kill-selector))
+  )
+
 
 (defadvice kill-region (before smart-kill-line activate compile)
-  "When called interactively with no active region, kill a single line instead."
-  (interactive
-    (if mark-active (list (region-beginning) (region-end))
-      (list (line-beginning-position)
-        (line-beginning-position 2)))))
+  "Same as above."
+  (interactive (my-smart-copy-kill-selector))
+  )
 ;;
 ;;
 ;;;;;;;;;;
 
+
+;;;; Other window override all
+(defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
+
+(define-key my-keys-minor-mode-map (kbd "C-o") 'other-window)
+
+(define-minor-mode my-keys-minor-mode
+  "A minor mode so that my key settings override annoying major modes."
+  t " my-keys" 'my-keys-minor-mode-map)
+
+(my-keys-minor-mode t)
+;;;;
+
 ;;;;;;;;;; Global key binding
-(global-set-key (kbd "C-o") 'other-window)
 (global-set-key (kbd "<f7>") 'compile)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x f") 'dired)
