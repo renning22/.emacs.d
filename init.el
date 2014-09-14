@@ -11,14 +11,18 @@
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
 
-;; Set font depends on system
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 181 :width normal :foundry "unknown" :family "Inconsolata")))))
+;; Disable emacs font set
+;; Set font depends on sys;; tem
+;; (custom-set-faces
+;;  ;; custom-set-faces was added by Custom.
+;;  ;; If you edit it by hand, you could mess it up, so be careful.
+;;  ;; Your init file should contain only one such instance.
+;;  ;; If there is more than one, they won't work right.
+;;  '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 181 :width normal :foundry "unknown" :family "Inconsolata")))))
 
+
+;; When MacOS, Adjust the font size.
+(when (string-equal system-type "darwin") (set-default-font "Inconsolata 26"))
 
 ;;;;;;;;;;;;; Google Internal Use ;;;;;;;;;;;;;
 (when (require 'google nil 'noerror)
@@ -77,9 +81,9 @@
 
 
 ;;; make completion buffers disappear after 3 seconds.
-(add-hook 'completion-setup-hook
-  (lambda () (run-at-time 3 nil
-    (lambda () (delete-windows-on "*Completions*")))))
+;; (add-hook 'completion-setup-hook
+;;   (lambda () (run-at-time 3 nil
+;;     (lambda () (delete-windows-on "*Completions*")))))
 
 ;;; make typing overwrite text selection
 (delete-selection-mode t)
