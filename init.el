@@ -213,7 +213,7 @@ return a 2-tuple-list."
   (if mark-active
       (progn (message "Copied region") (list (region-beginning) (region-end)))
     ;; else 1
-    (if (bounds-of-thing-at-point 'symbol)
+    (if (and (not (equal (point) (line-beginning-position))) (bounds-of-thing-at-point 'symbol))
 	(progn (message "Copied symbol: %s" (thing-at-point 'symbol)) (list (car (bounds-of-thing-at-point 'symbol)) (cdr (bounds-of-thing-at-point 'symbol))))
       ;; else 2
       (progn (message "Copied line: %s" (thing-at-point 'line)) (list (line-beginning-position) (line-end-position)))
