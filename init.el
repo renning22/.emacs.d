@@ -239,6 +239,19 @@ return a 2-tuple-list."
 ;;;;;;;;;;
 
 
+;;;;;;;;;; Fast switch to last buffer
+;;
+(defun switch-to-previous-buffer ()
+  "Switch to previously open buffer.
+Repeated invocations toggle between the two most recently open buffers."
+  (interactive)
+  (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+(keyboard-translate ?\C-q ?\H-q)
+(global-set-key [?\H-q] 'switch-to-previous-buffer)
+;;
+;;;;;;;;;;
+
 ;;;; Other window override all
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
