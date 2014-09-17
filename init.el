@@ -112,6 +112,9 @@
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 
+(require 'kill-ring-ido)
+(global-set-key (kbd "C-M-y") 'kill-ring-ido)
+
 
 ;; ;;; auto-save
 ;; ;; automatically save buffers associated with files on buffer switch
@@ -272,3 +275,4 @@ Repeated invocations toggle between the two most recently open buffers."
 (global-set-key (kbd "M-n") 'forward-paragraph)
 (global-set-key (kbd "M-p") 'backward-paragraph)
 ;;;;;;;;;;
+(put 'erase-buffer 'disabled nil)
