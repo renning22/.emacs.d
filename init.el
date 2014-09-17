@@ -100,21 +100,35 @@
 ;;; Packages
 (add-to-list 'load-path "~/.emacs.d/lisp")
 
+
 (require 'window-number)
 (window-number-mode)
 (window-number-meta-mode)
 
+
 (require 'smart-tab)
 (global-smart-tab-mode 1)
+
 
 (require 'ido)
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 
+
 (require 'kill-ring-ido)
 (global-set-key (kbd "C-M-y") 'kill-ring-ido)
 
+
+(require 'visual-regexp)
+(require 'visual-regexp-steroids)
+(define-key global-map (kbd "C-c r") 'vr/replace)
+(define-key global-map (kbd "C-c q") 'vr/query-replace)
+;; if you use multiple-cursors, this is for you:
+(define-key global-map (kbd "C-c m") 'vr/mc-mark)
+;; to use visual-regexp-steroids's isearch instead of the built-in regexp isearch, also include the following lines:
+(define-key esc-map (kbd "C-r") 'vr/isearch-backward) ;; C-M-r
+(define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
 
 ;; ;;; auto-save
 ;; ;; automatically save buffers associated with files on buffer switch
