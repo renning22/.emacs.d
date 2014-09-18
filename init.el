@@ -41,6 +41,7 @@
     (require 'ffap-java)
     ;;
     (grok-init)
+    (setq grok-sloppy-editing nil)
     ;;
     ;;
     ;;
