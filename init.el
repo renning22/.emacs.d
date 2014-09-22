@@ -59,6 +59,22 @@
 		 (add-hook 'write-contents-functions 'google-imports-organize-imports)))
     ;;
     ;;
+    ;; Turn on red highlighting for characters outside of the 80/100 char limit
+    (add-hook 'c++-mode-hook
+	      '(lambda () (font-lock-set-up-width-warning 80)))
+    (add-hook 'java-mode-hook
+	      '(lambda () (font-lock-set-up-width-warning 100)))
+    (add-hook 'js-mode-hook
+	      '(lambda () (font-lock-set-up-width-warning 80)))
+    (add-hook 'python-mode-hook
+	      '(lambda () (font-lock-set-up-width-warning 80)))
+    (add-hook 'sawzall-mode-hook
+	      '(lambda () (font-lock-set-up-width-warning 80)))
+    (add-hook 'sh-mode-hook
+	      '(lambda () (font-lock-set-up-width-warning 80)))
+    ;;
+    ;;
+    ;;
     ;; Suppress the trailing empty to be shown in RED
     (setq google-trailing-whitespace-modes '())
     (message "Suppressed trailing empty space red mode")
@@ -83,6 +99,9 @@
  kept-old-versions 2
  version-control t)
 
+;;;;;; Global viriables
+;;
+;;
 
 ;;; make completion buffers disappear after 3 seconds.
 ;; (add-hook 'completion-setup-hook
@@ -98,18 +117,25 @@
 ;;; Shut up compile saves
 (setq compilation-ask-about-save nil)
 
-;;; Packages
-(add-to-list 'load-path "~/.emacs.d/lisp")
+;;; Enable erase buffer
+(put 'erase-buffer 'disabled nil)
 
+;;
+;;
+;;;;;;
+
+
+;;;;;; Packages
+;;
+;;
+(add-to-list 'load-path "~/.emacs.d/lisp")
 
 (require 'window-number)
 (window-number-mode)
 (window-number-meta-mode)
 
-
 (require 'smart-tab)
 (global-smart-tab-mode 1)
-
 
 (require 'ido)
 (ido-mode t)
@@ -120,7 +146,6 @@
 (require 'kill-ring-ido)
 (global-set-key (kbd "C-M-y") 'kill-ring-ido)
 
-
 (require 'visual-regexp)
 (require 'visual-regexp-steroids)
 (define-key global-map (kbd "C-c r") 'vr/replace)
@@ -130,6 +155,10 @@
 ;; to use visual-regexp-steroids's isearch instead of the built-in regexp isearch, also include the following lines:
 (define-key esc-map (kbd "C-r") 'vr/isearch-backward) ;; C-M-r
 (define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
+;;
+;;
+;;
+;;;;;;
 
 ;; ;;; auto-save
 ;; ;; automatically save buffers associated with files on buffer switch
@@ -239,9 +268,6 @@ return a 2-tuple-list."
     );; end of if 1
   )
 
-
-
-
 (defadvice kill-ring-save (before smart-copy-line activate compile)
   "When called interactively with no active region, copy a single line or a a word instead."
   (interactive (my-smart-copy-kill-selector))
@@ -282,6 +308,17 @@ Repeated invocations toggle between the two most recently open buffers."
 (my-keys-minor-mode t)
 ;;;;
 
+;;;; Always show file path in frame title
+;;
+;;
+(setq frame-title-format
+      (list (format "%s %%S: %%j " (system-name))
+	    '(buffer-file-name "%f" (dired-directory dired-directory "%b"))))
+;;
+;;
+;;;;
+
+
 ;;;;;;;;;; Global key binding
 (global-set-key (kbd "<f7>") 'compile)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -290,4 +327,3 @@ Repeated invocations toggle between the two most recently open buffers."
 (global-set-key (kbd "M-n") 'forward-paragraph)
 (global-set-key (kbd "M-p") 'backward-paragraph)
 ;;;;;;;;;;
-(put 'erase-buffer 'disabled nil)
