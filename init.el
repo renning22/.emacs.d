@@ -299,7 +299,25 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;;; Other window override all
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
+;; Alternative movements
 (define-key my-keys-minor-mode-map (kbd "C-o") 'other-window)
+
+(define-key my-keys-minor-mode-map (kbd "C-p") 'previous-line)
+(define-key my-keys-minor-mode-map (kbd "C-;") 'next-line)
+(define-key my-keys-minor-mode-map (kbd "C-l") 'backward-char)
+(define-key my-keys-minor-mode-map (kbd "C-'") 'forward-char)
+(define-key my-keys-minor-mode-map (kbd "M-p") 'backward-paragraph)
+(define-key my-keys-minor-mode-map (kbd "M-;") 'forward-paragraph)
+(define-key my-keys-minor-mode-map (kbd "M-l") 'backward-word)
+(define-key my-keys-minor-mode-map (kbd "M-'") 'forward-word)
+
+;;;;;;;;;; Global key binding
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x f") 'dired)
+(global-set-key (kbd "C-x C-k") 'kill-buffer-and-window)
+(global-set-key (kbd "M-n") 'forward-paragraph)
+(global-set-key (kbd "M-p") 'backward-paragraph)
+;;;;;;;;;;
 
 (define-minor-mode my-keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."
@@ -317,13 +335,3 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;
 ;;
 ;;;;
-
-
-;;;;;;;;;; Global key binding
-(global-set-key (kbd "<f7>") 'compile)
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-x f") 'dired)
-(global-set-key (kbd "C-x C-k") 'kill-buffer-and-window)
-(global-set-key (kbd "M-n") 'forward-paragraph)
-(global-set-key (kbd "M-p") 'backward-paragraph)
-;;;;;;;;;;
