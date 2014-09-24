@@ -302,15 +302,18 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;;; Other window override all
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
-;; Alternative movements
+;; ~~~~~
 (define-key my-keys-minor-mode-map (kbd "C-o") 'other-window)
+(define-key my-keys-minor-mode-map (kbd "M-n") (lambda () (interactive) (scroll-up 3)))
+(define-key my-keys-minor-mode-map (kbd "M-p") (lambda () (interactive) (scroll-down 3)))
 
-(define-key my-keys-minor-mode-map (kbd "M-p") 'previous-line)
-(define-key my-keys-minor-mode-map (kbd "M-;") 'next-line)
-(define-key my-keys-minor-mode-map (kbd "M-l") 'backward-char)
-(define-key my-keys-minor-mode-map (kbd "M-'") 'forward-char)
-(define-key my-keys-minor-mode-map (kbd "M-o") 'move-beginning-of-line)
-(define-key my-keys-minor-mode-map (kbd "M-[") 'move-end-of-line)
+
+;; (define-key my-keys-minor-mode-map (kbd "M-p") 'previous-line)
+;; (define-key my-keys-minor-mode-map (kbd "M-;") 'next-line)
+;; (define-key my-keys-minor-mode-map (kbd "M-l") 'backward-char)
+;; (define-key my-keys-minor-mode-map (kbd "M-'") 'forward-char)
+;; (define-key my-keys-minor-mode-map (kbd "M-o") 'move-beginning-of-line)
+;; (define-key my-keys-minor-mode-map (kbd "M-[") 'move-end-of-line)
 ;; (define-key my-keys-minor-mode-map (kbd "M-p") 'backward-paragraph)
 ;; (define-key my-keys-minor-mode-map (kbd "M-;") 'forward-paragraph)
 ;; (define-key my-keys-minor-mode-map (kbd "M-l") 'backward-word)
