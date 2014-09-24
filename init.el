@@ -12,7 +12,7 @@
  '(tooltip-mode nil))
 
 ;; Disable emacs font set
-;; Set font depends on sys;; tem
+;; Set font depends on system
 ;; (custom-set-faces
 ;;  ;; custom-set-faces was added by Custom.
 ;;  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -155,6 +155,9 @@
 ;; to use visual-regexp-steroids's isearch instead of the built-in regexp isearch, also include the following lines:
 (define-key esc-map (kbd "C-r") 'vr/isearch-backward) ;; C-M-r
 (define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
+
+
+(require 'smooth-scrolling)
 ;;
 ;;
 ;;
@@ -302,22 +305,16 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; Alternative movements
 (define-key my-keys-minor-mode-map (kbd "C-o") 'other-window)
 
-(define-key my-keys-minor-mode-map (kbd "C-p") 'previous-line)
-(define-key my-keys-minor-mode-map (kbd "C-;") 'next-line)
-(define-key my-keys-minor-mode-map (kbd "C-l") 'backward-char)
-(define-key my-keys-minor-mode-map (kbd "C-'") 'forward-char)
-(define-key my-keys-minor-mode-map (kbd "M-p") 'backward-paragraph)
-(define-key my-keys-minor-mode-map (kbd "M-;") 'forward-paragraph)
-(define-key my-keys-minor-mode-map (kbd "M-l") 'backward-word)
-(define-key my-keys-minor-mode-map (kbd "M-'") 'forward-word)
-
-;;;;;;;;;; Global key binding
-(global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-x f") 'dired)
-(global-set-key (kbd "C-x C-k") 'kill-buffer-and-window)
-(global-set-key (kbd "M-n") 'forward-paragraph)
-(global-set-key (kbd "M-p") 'backward-paragraph)
-;;;;;;;;;;
+(define-key my-keys-minor-mode-map (kbd "M-p") 'previous-line)
+(define-key my-keys-minor-mode-map (kbd "M-;") 'next-line)
+(define-key my-keys-minor-mode-map (kbd "M-l") 'backward-char)
+(define-key my-keys-minor-mode-map (kbd "M-'") 'forward-char)
+(define-key my-keys-minor-mode-map (kbd "M-o") 'move-beginning-of-line)
+(define-key my-keys-minor-mode-map (kbd "M-[") 'move-end-of-line)
+;; (define-key my-keys-minor-mode-map (kbd "M-p") 'backward-paragraph)
+;; (define-key my-keys-minor-mode-map (kbd "M-;") 'forward-paragraph)
+;; (define-key my-keys-minor-mode-map (kbd "M-l") 'backward-word)
+;; (define-key my-keys-minor-mode-map (kbd "M-'") 'forward-word)
 
 (define-minor-mode my-keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."
