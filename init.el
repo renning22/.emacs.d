@@ -138,9 +138,12 @@
 (global-smart-tab-mode 1)
 
 (require 'ido)
+(require 'ido-ubiquitous)
+(require 'smex)
 (ido-mode t)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
+(smex-initialize)
 
 
 (require 'kill-ring-ido)
@@ -306,7 +309,8 @@ Repeated invocations toggle between the two most recently open buffers."
 (define-key my-keys-minor-mode-map (kbd "C-o") 'other-window)
 (define-key my-keys-minor-mode-map (kbd "M-n") (lambda () (interactive) (scroll-up 3)))
 (define-key my-keys-minor-mode-map (kbd "M-p") (lambda () (interactive) (scroll-down 3)))
-
+(define-key my-keys-minor-mode-map (kbd "C-z") 'smex)
+(define-key my-keys-minor-mode-map (kbd "C-x C-x") 'smex)
 
 ;; (define-key my-keys-minor-mode-map (kbd "M-p") 'previous-line)
 ;; (define-key my-keys-minor-mode-map (kbd "M-;") 'next-line)
