@@ -3,7 +3,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-names-vector ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
+ '(ansi-color-names-vector
+   ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(column-number-mode t)
  '(custom-enabled-themes (quote (deeper-blue)))
  '(inhibit-startup-screen t)
@@ -141,6 +142,7 @@
 (require 'ido-ubiquitous)
 (require 'smex)
 (ido-mode t)
+(ido-ubiquitous-mode t)
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
 (smex-initialize)
@@ -161,6 +163,9 @@
 
 
 (require 'smooth-scrolling)
+
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 ;;
 ;;
 ;;
@@ -182,79 +187,6 @@
 ;; (defadvice windmove-right (before other-window-now activate)
 ;;   (when buffer-file-name (save-buffer)))
 
-
-
-;;;;;;;;;; Smart Parens
-;;
-;;
-(defun move-forward-paren (&optional arg)
-  "Move forward parenthesis"
-  (interactive "P")
-  (if (looking-at ")") (forward-char 1))
-  (while (not (looking-at ")")) (forward-char 1))
-  )
-
-(defun move-backward-paren (&optional arg)
-  "Move backward parenthesis"
-  (interactive "P")
-  (if (looking-at "(") (forward-char -1))
-  (while (not (looking-at "(")) (backward-char 1))
-  )
-
-(defun move-forward-sqrParen (&optional arg)
-  "Move forward square brackets"
-  (interactive "P")
-  (if (looking-at "]") (forward-char 1))
-  (while (not (looking-at "]")) (forward-char 1))
-  )
-
-(defun move-backward-sqrParen (&optional arg)
-  "Move backward square brackets"
-  (interactive "P")
-  (if (looking-at "[[]") (forward-char -1))
-  (while (not (looking-at "[[]")) (backward-char 1))
-  )
-
-(defun move-forward-curlyParen (&optional arg)
-  "Move forward curly brackets"
-  (interactive "P")
-  (if (looking-at "}") (forward-char 1))
-  (while (not (looking-at "}")) (forward-char 1))
-  )
-
-(defun move-backward-curlyParen (&optional arg)
-  "Move backward curly brackets"
-  (interactive "P")
-  (if (looking-at "{") (forward-char -1))
-  (while (not (looking-at "{")) (backward-char 1))
-  )
-
-(defun move-forward-angleParen (&optional arg)
-  "Move forward angle brackets"
-  (interactive "P")
-  (if (looking-at ">") (forward-char 1))
-  (while (not (looking-at ">")) (forward-char 1))
-  )
-
-(defun move-backward-angleParen (&optional arg)
-  "Move backward angle brackets"
-  (interactive "P")
-  (if (looking-at "<") (forward-char -1))
-  (while (not (looking-at "<")) (backward-char 1))
-  )
-
-(global-set-key (kbd "M-)")           (quote move-forward-paren))
-(global-set-key (kbd "M-(")           (quote move-backward-paren))
-(global-set-key (kbd "M-]")           (quote move-forward-sqrParen))
-(global-set-key (kbd "M-[")           (quote move-backward-sqrParen))
-(global-set-key (kbd "M-}")           (quote move-forward-curlyParen))
-(global-set-key (kbd "M-{")           (quote move-backward-curlyParen))
-(global-set-key (kbd "M->")           (quote move-forward-angleParen))
-(global-set-key (kbd "M-<")           (quote move-backward-angleParen))
-
-;;
-;;
-;;;;;;;;;; Smart Parens
 
 ;;;;;;;;;; Smart Copy/Kill Current Line
 ;;
@@ -309,7 +241,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (define-key my-keys-minor-mode-map (kbd "C-o") 'other-window)
 (define-key my-keys-minor-mode-map (kbd "M-n") (lambda () (interactive) (scroll-up 3)))
 (define-key my-keys-minor-mode-map (kbd "M-p") (lambda () (interactive) (scroll-down 3)))
-(define-key my-keys-minor-mode-map (kbd "C-z") 'smex)
+(define-key my-keys-minor-mode-map (kbd "C-z") 'smex-major-mode-commands)
 (define-key my-keys-minor-mode-map (kbd "C-x C-x") 'smex)
 
 ;; (define-key my-keys-minor-mode-map (kbd "M-p") 'previous-line)
@@ -336,6 +268,14 @@ Repeated invocations toggle between the two most recently open buffers."
 (setq frame-title-format
       (list (format "%s %%S: %%j " (system-name))
 	    '(buffer-file-name "%f" (dired-directory dired-directory "%b"))))
-;;
-;;
-;;;;
+
+
+(custom-set-faces
+'(rainbow-delimiters-depth-1-face ((t (:foreground "hot pink"))))
+'(rainbow-delimiters-depth-2-face ((t (:foreground "magenta"))))
+'(rainbow-delimiters-depth-3-face ((t (:foreground "#ff7f00"))))
+'(rainbow-delimiters-depth-4-face ((t (:foreground "#FFFF00"))))
+'(rainbow-delimiters-depth-5-face ((t (:foreground "#00FF00"))))
+'(rainbow-delimiters-depth-6-face ((t (:foreground "#0000FF"))))
+'(rainbow-delimiters-depth-7-face ((t (:foreground "#4B0082"))))
+'(rainbow-delimiters-depth-8-face ((t (:foreground "#8B00FF")))))
