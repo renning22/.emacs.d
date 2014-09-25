@@ -147,7 +147,6 @@
 (setq ido-everywhere t)
 (smex-initialize)
 
-
 (require 'kill-ring-ido)
 (global-set-key (kbd "C-M-y") 'kill-ring-ido)
 
@@ -160,7 +159,6 @@
 ;; to use visual-regexp-steroids's isearch instead of the built-in regexp isearch, also include the following lines:
 (define-key esc-map (kbd "C-r") 'vr/isearch-backward) ;; C-M-r
 (define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
-
 
 (require 'smooth-scrolling)
 
@@ -234,14 +232,17 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;
 ;;;;;;;;;;
 
-;;;; Other window override all
+
 (defvar my-keys-minor-mode-map (make-keymap) "my-keys-minor-mode keymap.")
 
 ;; ~~~~~
+;;;; Other window override all
 (define-key my-keys-minor-mode-map (kbd "C-o") 'other-window)
-(define-key my-keys-minor-mode-map (kbd "M-n") (lambda () (interactive) (scroll-up 3)))
-(define-key my-keys-minor-mode-map (kbd "M-p") (lambda () (interactive) (scroll-down 3)))
-(define-key my-keys-minor-mode-map (kbd "C-z") 'smex-major-mode-commands)
+(global-set-key (kbd "M-n") (lambda () (interactive) (scroll-up 3)))
+(global-set-key (kbd "M-p") (lambda () (interactive) (scroll-down 3)))
+(global-set-key (kbd "M-x") 'smex)
+(global-set-key (kbd "C-x C-k") 'kill-buffer-and-window)
+(define-key my-keys-minor-mode-map (kbd "C-z") 'smex)
 (define-key my-keys-minor-mode-map (kbd "C-x C-x") 'smex)
 
 ;; (define-key my-keys-minor-mode-map (kbd "M-p") 'previous-line)
@@ -257,7 +258,7 @@ Repeated invocations toggle between the two most recently open buffers."
 
 (define-minor-mode my-keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."
-  t " my-keys" 'my-keys-minor-mode-map)
+  t " ning-keys" 'my-keys-minor-mode-map)
 
 (my-keys-minor-mode t)
 ;;;;
