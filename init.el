@@ -242,6 +242,8 @@ Repeated invocations toggle between the two most recently open buffers."
 (global-set-key (kbd "M-p") (lambda () (interactive) (scroll-down 3)))
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "C-x C-k") 'kill-buffer-and-window)
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x f") 'dired)
 (define-key my-keys-minor-mode-map (kbd "C-z") 'smex)
 (define-key my-keys-minor-mode-map (kbd "C-x C-x") 'smex)
 
