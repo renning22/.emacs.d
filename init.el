@@ -238,8 +238,8 @@ Repeated invocations toggle between the two most recently open buffers."
 ;; ~~~~~
 ;;;; Other window override all
 (define-key my-keys-minor-mode-map (kbd "C-o") 'other-window)
-(global-set-key (kbd "M-n") (lambda () (interactive) (scroll-up 3)))
-(global-set-key (kbd "M-p") (lambda () (interactive) (scroll-down 3)))
+(global-set-key (kbd "M-n") 'next-line)
+(global-set-key (kbd "M-p") 'previous-line)
 (global-set-key (kbd "M-x") 'smex)
 (global-set-key (kbd "C-x C-k") 'kill-buffer-and-window)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
