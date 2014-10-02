@@ -267,7 +267,6 @@ Repeated invocations toggle between the two most recently open buffers."
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x f") 'dired)
 (define-key my-keys-minor-mode-map (kbd "C-z") 'smex)
-(define-key my-keys-minor-mode-map (kbd "C-x C-x") 'smex)
 
 ;; (define-key my-keys-minor-mode-map (kbd "M-p") 'previous-line)
 ;; (define-key my-keys-minor-mode-map (kbd "M-;") 'next-line)
@@ -293,6 +292,37 @@ Repeated invocations toggle between the two most recently open buffers."
 (setq frame-title-format
       (list (format "%s %%S: %%j " (system-name))
 	    '(buffer-file-name "%f" (dired-directory dired-directory "%b"))))
+
+
+;;;; iBuffer name column width
+;;
+;;
+(setq ibuffer-formats
+      '((mark modified read-only " "
+              (name 40 40 :left :elide) " "
+              (size 9 -1 :right) " "
+              (mode 16 16 :left :elide) " " filename-and-process)
+        (mark " " (name 16 -1) " " filename)))
+;;
+;;
+;;;;
+
+;;;; Compilation auto scroll ;;;;
+;;
+;;
+(setq compilation-scroll-output 'first-error)
+;;
+;;
+;;;;
+
+;;;; Shut down Blink Cursor Mode ;;;;
+;;
+;;
+(blink-cursor-mode nil)
+;;
+;;
+;;;;
+
 
 
 (custom-set-faces
