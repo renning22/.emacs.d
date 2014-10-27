@@ -41,8 +41,8 @@
     (require 'google-imports)
     (require 'ffap-java)
     ;;
-    (grok-init)
-    (setq grok-sloppy-editing nil)
+    ;; (grok-init)
+    ;; (setq grok-sloppy-editing nil)
     ;;
     ;;
     ;;
@@ -266,6 +266,7 @@ Repeated invocations toggle between the two most recently open buffers."
 (global-set-key (kbd "C-x C-k") 'kill-buffer-and-window)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x f") 'dired)
+(global-set-key (kbd "<C-M-backspace>") 'backward-kill-sexp)
 (define-key my-keys-minor-mode-map (kbd "C-z") 'smex)
 
 ;; (define-key my-keys-minor-mode-map (kbd "M-p") 'previous-line)
@@ -323,7 +324,13 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;
 ;;;;
 
-
+;;;; Java fill-column 100
+;;
+(add-hook 'java-mode-hook
+          (lambda ()
+            (set-fill-column 100)))
+;;
+;;;;
 
 (custom-set-faces
 '(rainbow-delimiters-depth-1-face ((t (:foreground "hot pink"))))
