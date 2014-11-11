@@ -7,7 +7,7 @@
 ;;         Fanael Linithien <fanael4@gmail.com>
 ;; Maintainer: Fanael Linithien <fanael4@gmail.com>
 ;; Created: 2010-09-02
-;; Version: 1.3.13
+;; Version: 2.0.1
 ;; Keywords: faces, convenience, lisp, tools
 ;; Homepage: https://github.com/Fanael/rainbow-delimiters
 
@@ -71,8 +71,6 @@
 
 ;;; Code:
 
-;;; Customize interface:
-
 (defgroup rainbow-delimiters nil
   "Highlight nested parentheses, brackets, and braces according to their depth."
   :prefix "rainbow-delimiters-"
@@ -84,8 +82,8 @@
   "Faces for successively nested pairs of delimiters.
 
 When depth exceeds innermost defined face, colors cycle back through."
-  :tag "Color theme"
   :group 'rainbow-delimiters
+  :group 'faces
   :link '(custom-group-link "rainbow-delimiters")
   :prefix "rainbow-delimiters-")
 
@@ -97,91 +95,50 @@ Delimiters in this list are not highlighted."
   :type '(repeat character)
   :group 'rainbow-delimiters)
 
-;;; Faces:
-
-;; Unmatched delimiter face:
 (defface rainbow-delimiters-unmatched-face
   '((((background light)) (:foreground "#88090B"))
     (((background dark)) (:foreground "#88090B")))
   "Face to highlight unmatched closing delimiters in."
   :group 'rainbow-delimiters-faces)
 
-;; Mismatched delimiter face:
 (defface rainbow-delimiters-mismatched-face
   '((t :inherit rainbow-delimiters-unmatched-face))
   "Face to highlight mismatched closing delimiters in."
   :group 'rainbow-delimiters-faces)
 
-;; Faces for highlighting delimiters by nesting level:
-(defface rainbow-delimiters-depth-1-face
-  '((((background light)) (:foreground "#707183"))
-    (((background dark)) (:foreground "grey55")))
-  "Nested delimiters face, depth 1 - outermost set."
-  :tag "Rainbow Delimiters Depth 1 Face -- OUTERMOST"
-  :group 'rainbow-delimiters-faces)
+(eval-when-compile
+  (defmacro rainbow-delimiters--define-depth-faces ()
+    (let ((faces '())
+          (light-colors ["#707183" "#7388d6" "#909183" "#709870" "#907373"
+                         "#6276ba" "#858580" "#80a880" "#887070"])
+          (dark-colors ["grey55" "#93a8c6" "#b0b1a3" "#97b098" "#aebed8"
+                        "#b0b0b3" "#90a890" "#a2b6da" "#9cb6ad"]))
+      (dotimes (i 9)
+        (push `(defface ,(intern (format "rainbow-delimiters-depth-%d-face" (1+ i)))
+                 '((((class color) (background light)) :foreground ,(aref light-colors i))
+                   (((class color) (background dark)) :foreground ,(aref dark-colors i)))
+                 ,(format "Nested delimiter face, depth %d." (1+ i))
+                 :group 'rainbow-delimiters-faces)
+              faces))
+      `(progn ,@faces))))
+(rainbow-delimiters--define-depth-faces)
 
-(defface rainbow-delimiters-depth-2-face
-  '((((background light)) (:foreground "#7388d6"))
-    (((background dark)) (:foreground "#93a8c6")))
-  "Nested delimiters face, depth 2."
-  :group 'rainbow-delimiters-faces)
-
-(defface rainbow-delimiters-depth-3-face
-  '((((background light)) (:foreground "#909183"))
-    (((background dark)) (:foreground "#b0b1a3")))
-  "Nested delimiters face, depth 3."
-  :group 'rainbow-delimiters-faces)
-
-(defface rainbow-delimiters-depth-4-face
-  '((((background light)) (:foreground "#709870"))
-    (((background dark)) (:foreground "#97b098")))
-  "Nested delimiters face, depth 4."
-  :group 'rainbow-delimiters-faces)
-
-(defface rainbow-delimiters-depth-5-face
-  '((((background light)) (:foreground "#907373"))
-    (((background dark)) (:foreground "#aebed8")))
-  "Nested delimiters face, depth 5."
-  :group 'rainbow-delimiters-faces)
-
-(defface rainbow-delimiters-depth-6-face
-  '((((background light)) (:foreground "#6276ba"))
-    (((background dark)) (:foreground "#b0b0b3")))
-  "Nested delimiters face, depth 6."
-  :group 'rainbow-delimiters-faces)
-
-(defface rainbow-delimiters-depth-7-face
-  '((((background light)) (:foreground "#858580"))
-    (((background dark)) (:foreground "#90a890")))
-  "Nested delimiters face, depth 7."
-  :group 'rainbow-delimiters-faces)
-
-(defface rainbow-delimiters-depth-8-face
-  '((((background light)) (:foreground "#80a880"))
-    (((background dark)) (:foreground "#a2b6da")))
-  "Nested delimiters face, depth 8."
-  :group 'rainbow-delimiters-faces)
-
-(defface rainbow-delimiters-depth-9-face
-  '((((background light)) (:foreground "#887070"))
-    (((background dark)) (:foreground "#9cb6ad")))
-  "Nested delimiters face, depth 9."
-  :group 'rainbow-delimiters-faces)
-
-;;; Faces 10+:
-;; NOTE: Currently unused. Additional faces for depths 10+ can be added on request.
-
-(defconst rainbow-delimiters-max-face-count 9
+(defcustom rainbow-delimiters-max-face-count 9
   "Number of faces defined for highlighting delimiter levels.
 
-Determines depth at which to cycle through faces again.")
+Determines depth at which to cycle through faces again.
+
+It's safe to change this variable provided that for all integers from 1 to the
+new value inclusive, a face `rainbow-delimiters-depth-N-face' is defined."
+  :type 'integer
+  :group 'rainbow-delimiters)
 
 (defcustom rainbow-delimiters-outermost-only-face-count 0
   "Number of faces to be used only for N outermost delimiter levels.
 
 This should be smaller than `rainbow-delimiters-max-face-count'."
   :type 'integer
-  :group 'rainbow-delimiters-faces)
+  :group 'rainbow-delimiters)
 
 
 (defun rainbow-delimiters--depth-face (depth)
@@ -208,40 +165,18 @@ For example: `rainbow-delimiters-depth-1-face'."
 
 LOC is the location of the character to add text properties to.
 DEPTH is the nested depth at LOC, which determines the face to use.
-MATCH is nil iff it's a mismatched closing delimiter."
-  (let ((delim-face (cond
-                     ((<= depth 0)
-                      'rainbow-delimiters-unmatched-face)
-                     ((not match)
-                      'rainbow-delimiters-mismatched-face)
-                     (t
-                      (rainbow-delimiters--depth-face depth)))))
-    (font-lock-prepend-text-property loc (1+ loc) 'face delim-face)))
+MATCH is nil iff it's a mismatched closing delimiter.
 
-(defvar rainbow-delimiters-escaped-char-predicate nil)
-(make-variable-buffer-local 'rainbow-delimiters-escaped-char-predicate)
-
-(defvar rainbow-delimiters-escaped-char-predicate-list
-  '((emacs-lisp-mode . rainbow-delimiters--escaped-char-predicate-emacs-lisp)
-    (lisp-interaction-mode . rainbow-delimiters--escaped-char-predicate-emacs-lisp)
-    (inferior-emacs-lisp-mode . rainbow-delimiters--escaped-char-predicate-emacs-lisp)
-    (lisp-mode . rainbow-delimiters--escaped-char-predicate-lisp)
-    (scheme-mode . rainbow-delimiters--escaped-char-predicate-lisp)
-    (clojure-mode . rainbow-delimiters--escaped-char-predicate-lisp)
-    (inferior-scheme-mode . rainbow-delimiters--escaped-char-predicate-lisp)
-    ))
-
-(defun rainbow-delimiters--escaped-char-predicate-emacs-lisp (loc)
-  "Non-nil iff the character at LOC is escaped as per Emacs Lisp rules."
-  (or (and (eq (char-before loc) ?\?) ; e.g. ?) - deprecated, but people use it
-           (not (and (eq (char-before (1- loc)) ?\\) ; special case: ignore ?\?
-                     (eq (char-before (- loc 2)) ?\?))))
-      (and (eq (char-before loc) ?\\) ; escaped char, e.g. ?\) - not counted
-           (eq (char-before (1- loc)) ?\?))))
-
-(defun rainbow-delimiters--escaped-char-predicate-lisp (loc)
-  "Non-nil iff the character at LOC is escaped as per some generic Lisp rules."
-  (eq (char-before loc) ?\\))
+The delimiter is not highlighted if it's a blacklisted delimiter."
+  (unless (memq (char-after loc) rainbow-delimiters-delimiter-blacklist)
+    (let ((delim-face (cond
+                       ((<= depth 0)
+                        'rainbow-delimiters-unmatched-face)
+                       ((not match)
+                        'rainbow-delimiters-mismatched-face)
+                       (t
+                        (rainbow-delimiters--depth-face depth)))))
+      (font-lock-prepend-text-property loc (1+ loc) 'face delim-face))))
 
 (defun rainbow-delimiters--char-ineligible-p (loc ppss delim-syntax-code)
   "Return t if char at LOC should not be highlighted.
@@ -251,11 +186,11 @@ DELIM-SYNTAX-CODE is the `car' of a raw syntax descriptor at LOC.
 Returns t if char at loc meets one of the following conditions:
 - Inside a string.
 - Inside a comment.
-- Is an escaped char, e.g. ?\)
-- Is a blacklisted character."
+- Is an escaped char, e.g. ?\)"
   (or
    (nth 3 ppss)                ; inside string?
    (nth 4 ppss)                ; inside comment?
+   (nth 5 ppss)                ; escaped according to the syntax table?
    ;; Note: no need to consider single-char openers, they're already handled
    ;; by looking at ppss.
    (cond
@@ -266,10 +201,7 @@ Returns t if char at loc meets one of the following conditions:
     ((/= 0 (logand #x20000 delim-syntax-code))
      (/= 0 (logand #x10000 (or (car (syntax-after (1- loc))) 0))))
     (t
-     nil))
-   (when rainbow-delimiters-escaped-char-predicate
-     (funcall rainbow-delimiters-escaped-char-predicate loc))
-   (memq (char-after loc) rainbow-delimiters-delimiter-blacklist)))
+     nil))))
 
 (defconst rainbow-delimiters--delim-regex "\\s(\\|\\s)"
   "Regex matching all opening and closing delimiters the mode highlights.")
@@ -279,36 +211,27 @@ Returns t if char at loc meets one of the following conditions:
   "Highlight delimiters in region between point and END.
 
 Used by font-lock for dynamic highlighting."
-  (setq rainbow-delimiters-escaped-char-predicate
-        (cdr (assoc major-mode rainbow-delimiters-escaped-char-predicate-list)))
   (let* ((inhibit-point-motion-hooks t)
-         ;; Point can be anywhere in buffer; determine the nesting depth at point.
          (last-ppss-pos (point))
-         (ppss (syntax-ppss))
-         ;; Ignore negative depths created by unmatched closing delimiters.
-         (depth (max 0 (nth 0 ppss))))
+         (ppss (syntax-ppss)))
     (while (re-search-forward rainbow-delimiters--delim-regex end t)
       (let* ((delim-pos (match-beginning 0))
              (delim-syntax (syntax-after delim-pos)))
         (setq ppss (save-excursion
                      (parse-partial-sexp last-ppss-pos delim-pos nil nil ppss)))
         (setq last-ppss-pos delim-pos)
-        (unless (rainbow-delimiters--char-ineligible-p delim-pos ppss (car delim-syntax))
-          (if (= 4 (logand #xFFFF (car delim-syntax)))
-              (progn
-                (setq depth (1+ depth))
-                (rainbow-delimiters--apply-color delim-pos
-                                                 depth
-                                                 t))
+        (let ((delim-syntax-code (car delim-syntax)))
+          (cond
+           ((rainbow-delimiters--char-ineligible-p delim-pos ppss delim-syntax-code)
+            nil)
+           ((= 4 (logand #xFFFF delim-syntax-code))
+            ;; The (1+ ...) is needed because `parse-partial-sexp' returns the
+            ;; depth at the opening delimiter, not in the block being started.
+            (rainbow-delimiters--apply-color delim-pos (1+ (nth 0 ppss)) t))
+           (t
             ;; Not an opening delimiter, so it's a closing delimiter.
-            (let ((matching-opening-delim (char-after (nth 1 ppss))))
-              (rainbow-delimiters--apply-color delim-pos
-                                               depth
-                                               (eq (cdr delim-syntax)
-                                                   matching-opening-delim))
-              ;; Don't let `depth' go negative, even if there's an unmatched
-              ;; delimiter.
-              (setq depth (max 0 (1- depth)))))))))
+            (let ((matches-p (eq (cdr delim-syntax) (char-after (nth 1 ppss)))))
+              (rainbow-delimiters--apply-color delim-pos (nth 0 ppss) matches-p))))))))
   ;; We already fontified the delimiters, tell font-lock there's nothing more
   ;; to do.
   nil)
@@ -326,17 +249,18 @@ Used by font-lock for dynamic highlighting."
   (when rainbow-delimiters-mode
     (font-lock-add-keywords nil rainbow-delimiters--font-lock-keywords 'append)
     (set (make-local-variable 'jit-lock-contextually) t)
+    (when (or syntax-begin-function
+              (bound-and-true-p font-lock-beginning-of-syntax-function))
+      ;; We're going to modify `syntax-begin-function', so flush the cache to
+      ;; avoid getting cached values that used the old value.
+      (syntax-ppss-flush-cache 0))
     ;; `syntax-begin-function' may break the assumption we rely on that
     ;; `syntax-ppss' is exactly equivalent to `parse-partial-sexp' from
     ;; `point-min'. Just don't use it, the performance hit should be negligible.
     (set (make-local-variable 'syntax-begin-function) nil)
     ;; Obsolete equivalent of `syntax-begin-function'.
     (when (boundp 'font-lock-beginning-of-syntax-function)
-      (with-no-warnings
-        (set (make-local-variable 'font-lock-beginning-of-syntax-function) nil)))
-    ;; We modified `syntax-begin-function', so flush the cache to avoid getting
-    ;; cached values that used the old value.
-    (syntax-ppss-flush-cache 0))
+      (set (make-local-variable 'font-lock-beginning-of-syntax-function) nil)))
   (when font-lock-mode
     (if (fboundp 'font-lock-flush)
         (font-lock-flush)
