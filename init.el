@@ -9,8 +9,17 @@
  '(custom-enabled-themes (quote (deeper-blue)))
  '(inhibit-startup-screen t)
  '(show-paren-mode t)
+ '(menu-bar-mode nil)
+ '(toggle-scroll-bar nil)
  '(tool-bar-mode nil)
- '(tooltip-mode nil))
+ '(tooltip-mode nil)
+ ;;
+ ;; Disable ido's history feature
+ ;;
+ '(ido-enable-last-directory-history nil)
+ '(ido-record-commands nil)
+ '(ido-max-work-directory-list 0)
+ '(ido-max-work-file-list 0))
 
 ;; Disable emacs font set
 ;; Set font depends on system
