@@ -138,7 +138,9 @@
 ;;;;;; Packages
 ;;
 ;;
-(add-to-list 'load-path "~/.emacs.d/lisp")
+(let ((default-directory "~/.emacs.d/lisp/"))
+  (normal-top-level-add-to-load-path '("."))
+  (normal-top-level-add-subdirs-to-load-path))
 
 (require 'window-number)
 (window-number-mode)
@@ -173,6 +175,10 @@
 
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
+
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
 ;;
 ;;
 ;;
