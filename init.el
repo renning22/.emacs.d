@@ -98,26 +98,18 @@
 
 ;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
 ;; create the autosave dir if necessary, since emacs won't.
-
-(defvar my-autosaves-dir "~/.emacs.d.autosaves")
-(make-directory my-autosaves-dir t)
-(setq
- backup-by-copying t
- backup-directory-alist '(("." . "~/.emacs.d.autosaves"))
- delete-old-version t
- kept-new-versions 6
- kept-old-versions 2
- version-control t)
-
-;;;;;; Global viriables
-;;
-;;
-
+;; 
+;; This thing does not work!!!!!!!
+;; 
 ;;; make completion buffers disappear after 3 seconds.
 ;; (add-hook 'completion-setup-hook
 ;;   (lambda () (run-at-time 3 nil
 ;;     (lambda () (delete-windows-on "*Completions*")))))
 
+
+;;;;;; Global viriables
+;;
+;;
 ;;; make typing overwrite text selection
 (delete-selection-mode t)
 
@@ -138,19 +130,45 @@
 ;;;;;; Packages
 ;;
 ;;
-(let ((default-directory "~/.emacs.d/lisp/"))
-  (normal-top-level-add-to-load-path '("."))
-  (normal-top-level-add-subdirs-to-load-path))
+;;
+(require 'package)
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))
+(package-initialize)
+;;
+;;
 
+;; use-package
+(if (not (package-installed-p 'use-package))
+    (progn
+      (package-refresh-contents)
+      (package-install 'use-package)))
+
+(require 'use-package)
+;;
+;;
+
+;; For compliant packages, in future!
+;;
+;; (let ((default-directory "~/.emacs.d/lisp/"))
+;;   (normal-top-level-add-to-load-path '("."))
+;;   (normal-top-level-add-subdirs-to-load-path))
+
+
+(use-package window-number :ensure t)
 (require 'window-number)
 (window-number-mode)
 (window-number-meta-mode)
 
+(use-package smart-tab :ensure t)
 (require 'smart-tab)
 (global-smart-tab-mode 1)
 
 (require 'ido)
+(use-package ido-ubiquitous :ensure t)
 (require 'ido-ubiquitous)
+(use-package smex :ensure t)
 (require 'smex)
 (ido-mode t)
 (ido-ubiquitous-mode t)
@@ -158,10 +176,13 @@
 (setq ido-everywhere t)
 (smex-initialize)
 
+(use-package kill-ring-ido :ensure t)
 (require 'kill-ring-ido)
 (global-set-key (kbd "C-M-y") 'kill-ring-ido)
 
+(use-package visual-regexp :ensure t)
 (require 'visual-regexp)
+(use-package visual-regexp-steroids :ensure t)
 (require 'visual-regexp-steroids)
 (define-key global-map (kbd "C-c r") 'vr/replace)
 (define-key global-map (kbd "C-c q") 'vr/query-replace)
@@ -171,12 +192,14 @@
 (define-key esc-map (kbd "C-r") 'vr/isearch-backward) ;; C-M-r
 (define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
 
+(use-package smooth-scrolling :ensure t)
 (require 'smooth-scrolling)
 
+(use-package rainbow-delimiters :ensure t)
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
-
+(use-package expand-region :ensure t)
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 ;;
