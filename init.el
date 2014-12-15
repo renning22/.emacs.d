@@ -155,6 +155,11 @@
 ;;   (normal-top-level-add-to-load-path '("."))
 ;;   (normal-top-level-add-subdirs-to-load-path))
 
+;; common used package
+;;
+(use-package noflet :ensure t)
+;;
+;;
 
 (use-package window-number :ensure t)
 (require 'window-number)
