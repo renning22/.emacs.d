@@ -34,7 +34,7 @@
 ;; When MacOS, Adjust the font size.
 (when (string-equal system-type "darwin") (set-default-font "Inconsolata 26"))
 ;; When Ubuntu, 24 size
-(when (string-equal system-type "gnu/linux") (set-default-font "Inconsolata 24"))
+(when (string-equal system-type "gnu/linux") (set-default-font "Inconsolata 22"))
 
 
 ;;;;;;;;;;;;; Google Internal Use ;;;;;;;;;;;;;
