@@ -7,19 +7,19 @@
    ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(column-number-mode t)
  '(custom-enabled-themes (quote (deeper-blue)))
+ '(dabbrev-case-distinction nil)
+ '(dabbrev-case-fold-search nil)
+ '(dabbrev-case-replace nil)
+ '(ido-enable-last-directory-history nil)
+ '(ido-max-work-directory-list 0)
+ '(ido-max-work-file-list 0)
+ '(ido-record-commands nil)
  '(inhibit-startup-screen t)
- '(show-paren-mode t)
  '(menu-bar-mode nil)
+ '(show-paren-mode t)
  '(toggle-scroll-bar nil)
  '(tool-bar-mode nil)
- '(tooltip-mode nil)
- ;;
- ;; Disable ido's history feature
- ;;
- '(ido-enable-last-directory-history nil)
- '(ido-record-commands nil)
- '(ido-max-work-directory-list 0)
- '(ido-max-work-file-list 0))
+ '(tooltip-mode nil))
 
 ;; Disable emacs font set
 ;; Set font depends on system
@@ -376,11 +376,15 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;;;
 
 (custom-set-faces
-'(rainbow-delimiters-depth-1-face ((t (:foreground "hot pink"))))
-'(rainbow-delimiters-depth-2-face ((t (:foreground "magenta"))))
-'(rainbow-delimiters-depth-3-face ((t (:foreground "#ff7f00"))))
-'(rainbow-delimiters-depth-4-face ((t (:foreground "#FFFF00"))))
-'(rainbow-delimiters-depth-5-face ((t (:foreground "#00FF00"))))
-'(rainbow-delimiters-depth-6-face ((t (:foreground "#0000FF"))))
-'(rainbow-delimiters-depth-7-face ((t (:foreground "#4B0082"))))
-'(rainbow-delimiters-depth-8-face ((t (:foreground "#8B00FF")))))
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(rainbow-delimiters-depth-1-face ((t (:foreground "hot pink"))))
+ '(rainbow-delimiters-depth-2-face ((t (:foreground "magenta"))))
+ '(rainbow-delimiters-depth-3-face ((t (:foreground "#ff7f00"))))
+ '(rainbow-delimiters-depth-4-face ((t (:foreground "#FFFF00"))))
+ '(rainbow-delimiters-depth-5-face ((t (:foreground "#00FF00"))))
+ '(rainbow-delimiters-depth-6-face ((t (:foreground "#0000FF"))))
+ '(rainbow-delimiters-depth-7-face ((t (:foreground "#4B0082"))))
+ '(rainbow-delimiters-depth-8-face ((t (:foreground "#8B00FF")))))
