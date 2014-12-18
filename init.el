@@ -34,7 +34,7 @@
 ;; When MacOS, Adjust the font size.
 (when (string-equal system-type "darwin") (set-default-font "Inconsolata 26"))
 ;; When Ubuntu, 24 size
-(when (string-equal system-type "gnu/linux") (set-default-font "Inconsolata 22"))
+(when (string-equal system-type "gnu/linux") (set-default-font "Inconsolata 21"))
 
 
 ;;;;;;;;;;;;; Google Internal Use ;;;;;;;;;;;;;
@@ -162,19 +162,15 @@
 ;;
 
 (use-package window-number :ensure t)
-(require 'window-number)
 (window-number-mode)
 (window-number-meta-mode)
 
 (use-package smart-tab :ensure t)
-(require 'smart-tab)
 (global-smart-tab-mode 1)
 
-(require 'ido)
+(use-package ido :ensure t)
 (use-package ido-ubiquitous :ensure t)
-(require 'ido-ubiquitous)
 (use-package smex :ensure t)
-(require 'smex)
 (ido-mode t)
 (ido-ubiquitous-mode t)
 (setq ido-enable-flex-matching t)
@@ -182,13 +178,10 @@
 (smex-initialize)
 
 (use-package kill-ring-ido :ensure t)
-(require 'kill-ring-ido)
 (global-set-key (kbd "C-M-y") 'kill-ring-ido)
 
 (use-package visual-regexp :ensure t)
-(require 'visual-regexp)
 (use-package visual-regexp-steroids :ensure t)
-(require 'visual-regexp-steroids)
 (define-key global-map (kbd "C-c r") 'vr/replace)
 (define-key global-map (kbd "C-c q") 'vr/query-replace)
 ;; if you use multiple-cursors, this is for you:
@@ -198,14 +191,11 @@
 (define-key esc-map (kbd "C-s") 'vr/isearch-forward) ;; C-M-s
 
 (use-package smooth-scrolling :ensure t)
-(require 'smooth-scrolling)
 
 (use-package rainbow-delimiters :ensure t)
-(require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 (use-package expand-region :ensure t)
-(require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 ;;
 ;;
