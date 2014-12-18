@@ -67,6 +67,10 @@
     (add-hook 'java-mode-hook
 	      '(lambda ()
 		 (add-hook 'write-contents-functions 'google-imports-organize-imports)))
+
+    (add-hook 'c-mode-common-hook
+	      '(lambda ()
+		 (add-hook 'write-contents-functions 'google-imports-organize-imports)))
     ;;
     ;;
     ;; Turn on red highlighting for characters outside of the 80/100 char limit
