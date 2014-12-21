@@ -99,6 +99,10 @@
 ;;;;;;;;;;;;; Google Internal Use ;;;;;;;;;;;;;
 
 
+;; Auto delete trailling space before saving
+(add-hook 'c-mode-common-hook
+	  '(lambda ()
+	     (add-hook 'before-save-hook 'delete-trailing-whitespace)))
 
 ;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
 ;; create the autosave dir if necessary, since emacs won't.
