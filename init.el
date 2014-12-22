@@ -104,6 +104,10 @@
 	  '(lambda ()
 	     (add-hook 'before-save-hook 'delete-trailing-whitespace)))
 
+;; Auto backup i.e. "xxxx.txt~" is annoying.
+;; Shut it up
+(setq make-backup-files nil)
+
 ;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
 ;; create the autosave dir if necessary, since emacs won't.
 ;; 
