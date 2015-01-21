@@ -87,6 +87,18 @@
     (add-hook 'sh-mode-hook
 	      '(lambda () (font-lock-set-up-width-warning 80)))
     ;;
+
+    ;;;; fill-column
+    ;;
+    (add-hook 'java-mode-hook
+	      (lambda ()
+		(set-fill-column 100)))
+
+    (add-hook 'c-mode-common-hook
+	      (lambda ()
+		(set-fill-column 80)))
+    ;;
+
     ;;
     ;;
     ;; Suppress the trailing empty to be shown in RED
@@ -110,9 +122,9 @@
 
 ;; Put autosave files (ie #foo#) and backup files (ie foo~) in ~/.emacs.d/.
 ;; create the autosave dir if necessary, since emacs won't.
-;; 
+;;
 ;; This thing does not work!!!!!!!
-;; 
+;;
 ;;; make completion buffers disappear after 3 seconds.
 ;; (add-hook 'completion-setup-hook
 ;;   (lambda () (run-at-time 3 nil
@@ -369,11 +381,6 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;
 ;;;;
 
-;;;; Java fill-column 100
-;;
-(add-hook 'java-mode-hook
-          (lambda ()
-            (set-fill-column 100)))
 ;;
 ;;;;
 
