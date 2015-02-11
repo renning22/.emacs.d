@@ -19,7 +19,8 @@
  '(show-paren-mode t)
  '(toggle-scroll-bar nil)
  '(tool-bar-mode nil)
- '(tooltip-mode nil))
+ '(tooltip-mode nil)
+ '(global-linum-mode t))
 
 ;; Disable emacs font set
 ;; Set font depends on system
@@ -31,10 +32,10 @@
 ;;  '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 181 :width normal :foundry "unknown" :family "Inconsolata")))))
 
 
-;; When MacOS, Adjust the font size.
-(when (string-equal system-type "darwin") (set-default-font "Inconsolata 26"))
-;; When Ubuntu, 24 size
-(when (string-equal system-type "gnu/linux") (set-default-font "Inconsolata 18"))
+;; When MacOS
+(when (string-equal system-type "darwin") (set-default-font "Menlo Regular 26"))
+;; When Ubuntu
+(when (string-equal system-type "gnu/linux") (set-default-font "Monospace 14"))
 
 
 ;;;;;;;;;;;;; Google Internal Use ;;;;;;;;;;;;;
