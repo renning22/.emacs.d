@@ -33,7 +33,7 @@
 
 
 ;; When MacOS
-(when (string-equal system-type "darwin") (set-default-font "Menlo Regular 26"))
+(when (string-equal system-type "darwin") (set-default-font "Menlo 20"))
 ;; When Ubuntu
 (when (string-equal system-type "gnu/linux") (set-default-font "Monospace 14"))
 
