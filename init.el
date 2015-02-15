@@ -20,7 +20,8 @@
  '(toggle-scroll-bar nil)
  '(tool-bar-mode nil)
  '(tooltip-mode nil)
- '(global-linum-mode t))
+ '(global-linum-mode t)
+ '(js-indent-level 2))
 
 ;; Disable emacs font set
 ;; Set font depends on system
