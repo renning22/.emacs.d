@@ -20,7 +20,8 @@
  '(toggle-scroll-bar nil)
  '(tool-bar-mode nil)
  '(tooltip-mode nil)
- '(global-linum-mode t))
+ '(global-linum-mode t)
+ '(js-indent-level 2))
 
 ;; Disable emacs font set
 ;; Set font depends on system
@@ -33,7 +34,7 @@
 
 
 ;; When MacOS
-(when (string-equal system-type "darwin") (set-default-font "Menlo Regular 26"))
+(when (string-equal system-type "darwin") (set-default-font "Menlo 20"))
 ;; When Ubuntu
 (when (string-equal system-type "gnu/linux") (set-default-font "Monospace 14"))
 
