@@ -243,6 +243,16 @@
 ;; (defadvice windmove-right (before other-window-now activate)
 ;;   (when buffer-file-name (save-buffer)))
 
+;;;;;;;; Disable stupid secondary region.
+;; 
+;;
+(global-unset-key [M-mouse-1])
+(global-unset-key [M-drag-mouse-1])
+(global-unset-key [M-down-mouse-1])
+(global-unset-key [M-mouse-3])
+(global-unset-key [M-mouse-2])
+;;
+;;;;;;;;
 
 ;;;;;;;;;; Smart Copy/Kill Current Line
 ;;
