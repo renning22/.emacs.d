@@ -20,7 +20,6 @@
  '(toggle-scroll-bar nil)
  '(tool-bar-mode nil)
  '(tooltip-mode nil)
- '(global-linum-mode t)
  '(js-indent-level 2))
 
 ;; Disable emacs font set
@@ -48,12 +47,18 @@
     (require 'csearch)                  ;; Search the whole Google code base.
     (require 'google-imports)
     (require 'ffap-java)
+    (require 'rotate-among-files)       ;; google-rotate-among-files
+    (require 'google-lint)
+    (require 'reformat-file)
     ;;
     ;; (grok-init)
     ;; (setq grok-sloppy-editing nil)
     ;;
     ;;
     ;;
+
+
+
     ;;make chrome the default browser
     (setq browse-url-browser-function 'browse-url-generic
 	  browse-url-generic-program "google-chrome")
@@ -80,6 +85,8 @@
 	      '(lambda () (font-lock-set-up-width-warning 100)))
     (add-hook 'js-mode-hook
 	      '(lambda () (font-lock-set-up-width-warning 80)))
+    (add-hook 'dart-mode-hook
+	      '(lambda () (font-lock-set-up-width-warning 80)))
     (add-hook 'python-mode-hook
 	      '(lambda () (font-lock-set-up-width-warning 80)))
     (add-hook 'sawzall-mode-hook
@@ -95,6 +102,10 @@
 		(set-fill-column 100)))
 
     (add-hook 'c-mode-common-hook
+	      (lambda ()
+		(set-fill-column 80)))
+
+    (add-hook 'dart-mode-hook
 	      (lambda ()
 		(set-fill-column 80)))
     ;;
@@ -220,7 +231,11 @@
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 (use-package expand-region :ensure t)
-(global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C-`") 'er/expand-region)
+(global-set-key (kbd "C-\\") 'er/expand-region)
+
+(use-package nlinum :ensure t)
+(global-nlinum-mode t)
 ;;
 ;;
 ;;
@@ -290,7 +305,8 @@ return a 2-tuple-list."
 ;;
 (defun switch-to-previous-buffer ()
   "Switch to previously open buffer.
-Repeated invocations toggle between the two most recently open buffers."
+Repeated invocations toggle between the two most recently open
+buffers."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
@@ -367,7 +383,7 @@ Repeated invocations toggle between the two most recently open buffers."
 ;;
 (setq ibuffer-formats
       '((mark modified read-only " "
-              (name 40 40 :left :elide) " "
+              (name 60 60 :left :elide) " "
               (size 9 -1 :right) " "
               (mode 16 16 :left :elide) " " filename-and-process)
         (mark " " (name 16 -1) " " filename)))
