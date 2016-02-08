@@ -5,22 +5,24 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-names-vector
    ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
+ '(blink-cursor-mode nil)
  '(column-number-mode t)
  '(custom-enabled-themes (quote (deeper-blue)))
  '(dabbrev-case-distinction nil)
  '(dabbrev-case-fold-search nil)
  '(dabbrev-case-replace nil)
+ '(global-auto-revert-mode t)
  '(ido-enable-last-directory-history nil)
  '(ido-max-work-directory-list 0)
  '(ido-max-work-file-list 0)
  '(ido-record-commands nil)
  '(inhibit-startup-screen t)
+ '(js-indent-level 2)
  '(menu-bar-mode nil)
  '(show-paren-mode t)
  '(toggle-scroll-bar nil)
  '(tool-bar-mode nil)
- '(tooltip-mode nil)
- '(js-indent-level 2))
+ '(tooltip-mode nil))
 
 ;; Disable emacs font set
 ;; Set font depends on system
@@ -41,15 +43,19 @@
 ;;;;;;;;;;;;; Google Internal Use ;;;;;;;;;;;;;
 (when (require 'google nil 'noerror)
   (progn
-    (require 'google)
-    (require 'google-java)
-    (require 'google3-build)            ;; support for blaze builds
     (require 'csearch)                  ;; Search the whole Google code base.
-    (require 'google-imports)
     (require 'ffap-java)
-    (require 'rotate-among-files)       ;; google-rotate-among-files
+    (require 'google)
+    (require 'google-imports)
+    (require 'google-java)
     (require 'google-lint)
+    (require 'google-ycmd)
+    (require 'google3-build)            ;; support for blaze builds
     (require 'reformat-file)
+    (require 'rotate-among-files)       ;; google-rotate-among-files
+
+    (load-file "~/.emacs.d/google3-tidy-dart.el")
+    (require 'google3-tidy-dart)
     ;;
     ;; (grok-init)
     ;; (setq grok-sloppy-editing nil)
@@ -68,7 +74,7 @@
     ;;will delete only a subword.
     (add-hook 'c-mode-common-hook
 	      (lambda () (subword-mode 1)))
-    
+
     ;; Auto imports org only works with Java and C++.
     (add-hook 'java-mode-hook
 	      '(lambda ()
@@ -76,6 +82,10 @@
     (add-hook 'c++-mode-common-hook
 	      '(lambda ()
 		 (add-hook 'write-contents-functions 'google-imports-organize-imports)))
+    (add-hook 'dart-mode-hook
+	      '(lambda ()
+		 (add-hook 'after-save-hook 'google3-tidy-dart nil 'make-it-local)))
+
     ;;
     ;;
     ;; Turn on red highlighting for characters outside of the 80/100 char limit
@@ -195,10 +205,6 @@
 (use-package noflet :ensure t)
 ;;
 ;;
-
-(use-package window-number :ensure t)
-(window-number-mode)
-(window-number-meta-mode)
 
 (use-package smart-tab :ensure t)
 (global-smart-tab-mode 1)
@@ -352,17 +358,6 @@ buffers."
 (global-set-key (kbd "<C-M-backspace>") 'backward-kill-sexp)
 (define-key my-keys-minor-mode-map (kbd "C-z") 'smex)
 
-;; (define-key my-keys-minor-mode-map (kbd "M-p") 'previous-line)
-;; (define-key my-keys-minor-mode-map (kbd "M-;") 'next-line)
-;; (define-key my-keys-minor-mode-map (kbd "M-l") 'backward-char)
-;; (define-key my-keys-minor-mode-map (kbd "M-'") 'forward-char)
-;; (define-key my-keys-minor-mode-map (kbd "M-o") 'move-beginning-of-line)
-;; (define-key my-keys-minor-mode-map (kbd "M-[") 'move-end-of-line)
-;; (define-key my-keys-minor-mode-map (kbd "M-p") 'backward-paragraph)
-;; (define-key my-keys-minor-mode-map (kbd "M-;") 'forward-paragraph)
-;; (define-key my-keys-minor-mode-map (kbd "M-l") 'backward-word)
-;; (define-key my-keys-minor-mode-map (kbd "M-'") 'forward-word)
-
 (define-minor-mode my-keys-minor-mode
   "A minor mode so that my key settings override annoying major modes."
   t " ning-keys" 'my-keys-minor-mode-map)
@@ -395,14 +390,6 @@ buffers."
 ;;
 ;;
 (setq compilation-scroll-output 'first-error)
-;;
-;;
-;;;;
-
-;;;; Shut down Blink Cursor Mode ;;;;
-;;
-;;
-(blink-cursor-mode nil)
 ;;
 ;;
 ;;;;
