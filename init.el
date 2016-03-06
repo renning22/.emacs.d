@@ -44,15 +44,14 @@
 (when (require 'google nil 'noerror)
   (progn
     (require 'csearch)                  ;; Search the whole Google code base.
-    (require 'ffap-java)
     (require 'google)
     (require 'google-imports)
     (require 'google-java)
     (require 'google-lint)
-    (require 'google-ycmd)
     (require 'google3-build)            ;; support for blaze builds
     (require 'reformat-file)
     (require 'rotate-among-files)       ;; google-rotate-among-files
+    (require 'p4-google)
 
     (load-file "~/.emacs.d/google3-tidy-dart.el")
     (require 'google3-tidy-dart)
